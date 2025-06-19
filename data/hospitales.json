@@ -1,0 +1,30 @@
+{
+  "cdmx": [
+    "M\u00e9dica Sur",
+    "Hospital ABC",
+    "Hospital \u00c1ngeles del Pedregal",
+    "Star M\u00e9dica",
+    "Centro M\u00e9dico Nacional Siglo XXI"
+  ],
+  "francia": [
+    "H\u00f4pital Piti\u00e9-Salp\u00eatri\u00e8re",
+    "Clinique Ambroise Par\u00e9"
+  ],
+  "estados_unidos": [
+    "Mayo Clinic",
+    "Cleveland Clinic",
+    "Johns Hopkins Hospital"
+  ],
+  "japon": [
+    "Tokyo Midtown Clinic",
+    "St. Luke's International Hospital"
+  ],
+  "brasil": [
+    "Hospital S\u00edrio-Liban\u00eas",
+    "Hospital Albert Einstein"
+  ],
+  "sudafrica": [
+    "Netcare Milpark Hospital",
+    "Chris Hani Baragwanath Hospital"
+  ]
+}

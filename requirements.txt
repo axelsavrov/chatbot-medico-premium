@@ -1,0 +1,6 @@
+flask
+twilio
+nltk
+scikit-learn
+transformers
+pandas

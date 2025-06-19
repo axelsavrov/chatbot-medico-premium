@@ -1,0 +1,17 @@
+{
+  "axa": {
+    "estado": "v\u00e1lido",
+    "cobertura": "alta",
+    "contacto": "800 911 1292"
+  },
+  "gnp": {
+    "estado": "v\u00e1lido",
+    "cobertura": "media",
+    "contacto": "55 5227 9000"
+  },
+  "metlife": {
+    "estado": "expirado",
+    "cobertura": "baja",
+    "contacto": "55 5328 7000"
+  }
+}
