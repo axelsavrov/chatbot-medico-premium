@@ -1,44 +1,47 @@
-from flask import Flask, jsonify
-import json
+from flask import Flask, request, Response
+from twilio.twiml.messaging_response import MessagingResponse
 import os
 
 app = Flask(__name__)
 
-# Función para cargar archivos JSON
-def cargar_json(nombre_archivo):
-    ruta = os.path.join(os.path.dirname(__file__), "../data", nombre_archivo)
-    try:
-        with open(ruta, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {"error": f"{nombre_archivo} no encontrado"}
-    except json.JSONDecodeError:
-        return {"error": f"Error al leer {nombre_archivo}"}
-
-# Endpoint raíz para comprobar que el bot funciona
 @app.route("/", methods=["GET"])
 def home():
     return "✅ Chatbot médico premium corriendo correctamente"
 
-# Endpoint: historial de pacientes
-@app.route("/historial", methods=["GET"])
-def obtener_historial():
-    data = cargar_json("historial_pacientes.json")
-    return jsonify(data)
+@app.route("/webhook", methods=["POST"])
+def whatsapp_reply():
+    print("📩 Encabezados:")
+    for k, v in request.headers.items():
+        print(f"{k}: {v}")
 
-# Endpoint: seguros registrados
-@app.route("/seguros", methods=["GET"])
-def obtener_seguros():
-    data = cargar_json("seguros.json")
-    return jsonify(data)
+    print("\n📩 Datos recibidos:")
+    print(request.form)
 
-# Endpoint: hospitales disponibles
-@app.route("/hospitales", methods=["GET"])
-def obtener_hospitales():
-    data = cargar_json("hospitales.json")
-    return jsonify(data)
+    from_number = request.values.get('From', None)
+    body = request.values.get('Body', '').strip()
 
-# Para despliegue en Render (puerto dinámico y host accesible)
+    print("\n✅ Mensaje recibido:", body, "| De:", from_number)
+
+    # Respuesta simple
+    respuesta = "✅ ¡Hola! Soy tu asistente médico. ¿Qué síntomas tienes?"
+
+    if "pecho" in body.lower():
+        respuesta = "⚠️ Eso suena como una urgencia. Ve a urgencias 🏥"
+    elif "cabeza" in body.lower():
+        respuesta = "¿Desde cuándo te duele la cabeza? Podría ser migraña 🤕"
+    elif "fiebre" in body.lower():
+        respuesta = "¿Desde cuándo tienes fiebre? ¿Tienes tos o malestar? 🤒"
+
+    # Generar respuesta Twilio
+    resp = MessagingResponse()
+    resp.message(respuesta)
+
+    response_xml = str(resp)
+    print("\n📤 XML enviado a Twilio:\n", response_xml)
+
+    return Response(response_xml, mimetype="application/xml")
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
