@@ -15,6 +15,11 @@ def cargar_json(nombre_archivo):
     except json.JSONDecodeError:
         return {"error": f"Error al leer {nombre_archivo}"}
 
+# Endpoint raíz para comprobar que el bot funciona
+@app.route("/", methods=["GET"])
+def home():
+    return "✅ Chatbot médico premium corriendo correctamente"
+
 # Endpoint: historial de pacientes
 @app.route("/historial", methods=["GET"])
 def obtener_historial():
@@ -33,12 +38,7 @@ def obtener_hospitales():
     data = cargar_json("hospitales.json")
     return jsonify(data)
 
-# Endpoint raíz para Render
-@app.route("/", methods=["GET"])
-def home():
-    return "✅ Chatbot médico premium corriendo correctamente"
-
-# Ejecución
+# Para despliegue en Render (puerto dinámico y host accesible)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
